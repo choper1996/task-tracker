@@ -2,7 +2,7 @@ import React from 'react'
 import type { TaskProps } from './types.ts'
 import { TaskStatus, TaskDate } from "./components";
 
-const Task: React.FC<TaskProps> = ({
+export const Task: React.FC<TaskProps> = ({
 	title,
 	description,
 	startDate = new Date(),
@@ -16,7 +16,7 @@ const Task: React.FC<TaskProps> = ({
 
 	return (
 		<div
-			className='bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg transition-shadow duration-200'
+			className='bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg transition-shadow duration-200 cursor-pointer'
 			onClick={clickHandler}
 		>
 			<div className='flex justify-between'>
@@ -41,5 +41,3 @@ const Task: React.FC<TaskProps> = ({
 		</div>
 	)
 }
-
-export default Task

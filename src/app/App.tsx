@@ -1,13 +1,13 @@
-import Task from '../entities/Task/Task.tsx'
-import { MOCK_TASKS } from './config/MOCK_TASKS.ts'
+import { TasksColumn } from "../widgets/TasksColumn/TaskColumn.tsx";
 
 import './App.css'
+
 
 
 function App() {
 	return (
 		<div className='min-h-screen bg-white dark:bg-gray-900 p-4'>
-			<header className='flex items-center gap-4 mb-8'>
+			<header className='flex items-center gap-4 bg-white dark:bg-gray-900 fixed w-full left-0 top-0 p-4'>
 				<h1 className='text-3xl font-bold text-gray-900 dark:text-white'>
 					Task tracker
 				</h1>
@@ -19,11 +19,13 @@ function App() {
 				/>
 			</header>
 
-			<section>
-				{MOCK_TASKS.map(task => (
-					<Task key={task.id} {...task} />
-				))}
-			</section>
+			<div className="flex items-start gap-4 pt-20">
+				<TasksColumn status="todo" />
+
+				<TasksColumn status="in_progress" />
+
+				<TasksColumn status="ready" />
+			</div>
 		</div>
 	)
 }
