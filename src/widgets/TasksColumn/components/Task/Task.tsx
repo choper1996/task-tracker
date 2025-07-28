@@ -26,7 +26,7 @@ export const Task: React.FC<TaskProps> = ({
 			className='bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 p-4 hover:shadow-lg transition-shadow duration-200 cursor-pointer'
 			onClick={clickHandler}
 		>
-			<div className='flex justify-between'>
+			<div className='flex justify-between gap-4'>
 				<h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2'>
 					{title}
 				</h3>

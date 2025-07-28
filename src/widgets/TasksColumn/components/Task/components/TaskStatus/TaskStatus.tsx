@@ -12,7 +12,7 @@ interface StatusProps {
 export const TaskStatus: React.FC<StatusProps> = ({ status }) => {
 
 	return (
-		<div className='flex items-center justify-between mb-3'>
+		<div className='flex items-center justify-between mb-3 shrink-0'>
 				<span className={`${styles.status} ${getStatusClass(status)}`}>
 					{getStatusText(status)}
 				</span>

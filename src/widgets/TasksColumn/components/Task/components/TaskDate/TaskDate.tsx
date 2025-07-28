@@ -1,12 +1,12 @@
 import React from "react";
 import {formatDate} from "../../../../../../helpers";
 
-interface StatusProps {
+interface TaskDateProps {
 	date?: Date;
 	period: "start" | "end";
 }
 
-export const TaskDate: React.FC<StatusProps> = ({ date, period }) => {
+export const TaskDate: React.FC<TaskDateProps> = ({ date, period }) => {
 
 	if (!date) {
 		return null;

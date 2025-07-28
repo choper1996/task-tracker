@@ -11,7 +11,22 @@ export const formatDate = (date: Date | string | null | undefined): string => {
 		day: '2-digit',
 		month: '2-digit',
 		year: 'numeric',
-		hour: '2-digit',
-		minute: '2-digit',
 	}).format(parsedDate);
 };
+
+export const formatDateForInput = (date?: Date) => {
+	if (!date) return '';
+
+	const dateByFormat = new Date(date);
+
+	let month = '' + (dateByFormat.getMonth() + 1)
+	let day = '' + dateByFormat.getDate()
+	const year = dateByFormat.getFullYear()
+
+	if (month.length < 2)
+		month = '0' + month;
+	if (day.length < 2)
+		day = '0' + day;
+
+	return [year, month, day].join('-');
+}

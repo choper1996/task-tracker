@@ -3,7 +3,7 @@ import { useUnit } from 'effector-react';
 import { $taskSidebarShown, closeTaskSideBar } from './model';
 import { $currentTask, addTask, updateTask, deleteTask } from "../../models/tasks.ts";
 import type {TaskProps} from "../../types/TaskTypes.ts";
-import {formatDate} from "../../helpers";
+import {formatDateForInput} from "../../helpers/formatDate.ts";
 
 export const TaskSidebar: React.FC = () => {
 	const ref = useRef<HTMLDivElement>(null);
@@ -17,17 +17,23 @@ export const TaskSidebar: React.FC = () => {
 
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
-	const [startDate, setStartDate] = useState('');
-	const [endDate, setEndDate] = useState('');
+	const [startDate, setStartDate] = useState<Date>(new Date());
+	const [endDate, setEndDate] = useState<Date | undefined>(undefined);
 	const [status, setStatus] = useState<TaskProps["status"]>('todo');
 
 	const isOpen = useUnit($taskSidebarShown);
-	const onClose = useUnit(closeTaskSideBar);
+	const closeTaskSideBarEvent = useUnit(closeTaskSideBar);
+
+	const onClose = ()=> {
+		closeTaskSideBarEvent();
+		clearValues();
+	}
+
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (ref.current && !ref.current.contains(event.target as Node)) {
-				onClose();
+				closeTaskSideBarEvent();
 			}
 		};
 
@@ -38,21 +44,25 @@ export const TaskSidebar: React.FC = () => {
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [isOpen, onClose]);
+	}, [isOpen, closeTaskSideBarEvent]);
+
+	const clearValues = () => {
+		setTitle('');
+		setDescription('');
+		setStartDate(new Date());
+		setEndDate(undefined);
+		setStatus('todo');
+	}
 
 	useEffect(() => {
 		if (currentTask) {
 			setTitle(currentTask.title || '');
 			setDescription(currentTask.description || '');
-			setStartDate(formatDate(currentTask.startDate));
-			setEndDate(formatDate(currentTask.endDate));
+			setStartDate(currentTask.startDate);
+			setEndDate(currentTask?.endDate);
 			setStatus(currentTask.status || 'todo');
 		} else {
-			setTitle('');
-			setDescription('');
-			setStartDate('');
-			setEndDate('');
-			setStatus('todo');
+			clearValues()
 		}
 	}, [currentTask]);
 
@@ -121,9 +131,9 @@ export const TaskSidebar: React.FC = () => {
 					<label>
 						<span className="block text-sm font-medium mb-1">Дата начала</span>
 						<input
-							type="datetime-local"
-							value={startDate}
-							onChange={(e) => setStartDate(e.target.value)}
+							type="date"
+							value={formatDateForInput(startDate)}
+							onChange={(e) => setStartDate(new Date(e.currentTarget.value))}
 							className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm dark:bg-gray-800 dark:text-white"
 						/>
 					</label>
@@ -132,9 +142,9 @@ export const TaskSidebar: React.FC = () => {
 					<label>
 						<span className="block text-sm font-medium mb-1">Дата окончания</span>
 						<input
-							type="datetime-local"
-							value={endDate}
-							onChange={(e) => setEndDate(e.target.value)}
+							type="date"
+							value={formatDateForInput(endDate)}
+							onChange={(e) => setEndDate(new Date(e.currentTarget.value))}
 							className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm dark:bg-gray-800 dark:text-white"
 						/>
 					</label>
@@ -164,7 +174,7 @@ export const TaskSidebar: React.FC = () => {
 						</button>
 						<button
 							type="submit"
-							className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg"
+							className="px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:text-white text-gray-600 text-sm font-medium rounded-lg"
 						>
 							{currentTask ? 'Сохранить' : 'Добавить'}
 						</button>

@@ -7,13 +7,16 @@ import type {TaskProps} from "../../types/TaskTypes.ts";
 import {getStatusText} from "../../helpers";
 import {Task} from "./components/Task/Task.tsx";
 import {$searchTaskValue} from "../TaskSearch/model.ts";
+import {$endFilterDate, $startFilterDate} from "../TaskDateFilter/model.ts";
 
 interface TasksColumnProps {
 	status: TaskProps["status"];
 }
 
 export const TasksColumn: React.FC<TasksColumnProps> = ({ status }) => {
-	const searchValue = useUnit($searchTaskValue)
+	const searchValue = useUnit($searchTaskValue);
+	const startFilterDate = useUnit($startFilterDate);
+	const endFilterDate = useUnit($endFilterDate);
 
 	const filterTasks = (tasks: TaskProps[]) => {
 		return tasks.filter((t) => t.status === status)
@@ -37,10 +40,28 @@ export const TasksColumn: React.FC<TasksColumnProps> = ({ status }) => {
 					tasks
 						.filter((task) => {
 							if (searchValue) {
-								return task.title.includes(searchValue);
+								return task.title.toLowerCase().includes(searchValue.toLowerCase());
 							}
 
-							return task
+							return task;
+						})
+						.filter((task) => {
+								if (startFilterDate) {
+									const taskDate = new Date(task.startDate).setHours(0, 0, 0, 0);
+									const filterDate = new Date(startFilterDate).setHours(0, 0, 0, 0);
+									return taskDate >= filterDate;
+								}
+
+							return task;
+						})
+						.filter((task) => {
+							if (endFilterDate && task?.endDate) {
+								const taskDate = new Date(task.endDate).setHours(23, 59, 59, 999);
+								const filterDate = new Date(endFilterDate).setHours(23, 59, 59, 999);
+								return taskDate <= filterDate;
+							}
+
+							return task;
 						})
 						.map((task) => <Task key={task.id} {...task} />)
 

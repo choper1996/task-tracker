@@ -8,6 +8,7 @@ import {clearCurrentTask} from "../models/tasks.ts";
 import {TaskSearch} from "../widgets/TaskSearch/TaskSearch.tsx";
 
 import './App.css'
+import {TaskDateFilter} from "../widgets/TaskDateFilter/TaskDateFilter.tsx";
 
 
 
@@ -29,15 +30,17 @@ function App() {
 
 				<TaskSearch />
 
+				<TaskDateFilter />
+
 				<button
 					onClick={showTaskSidebar}
-					className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-2xl shadow transition duration-200"
+					className="px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:text-white text-gray-600 text-sm font-medium rounded-2xl shadow transition duration-200"
 				>
 					+ Добавить задачу
 				</button>
 			</header>
 
-			<div className="flex items-start gap-4 pt-20">
+			<div className="flex items-start gap-4 pt-25">
 				<TasksColumn status="todo" />
 
 				<TasksColumn status="in_progress" />
