@@ -1,17 +1,24 @@
 import React from 'react'
 import type { TaskProps } from './types.ts'
 import { TaskStatus, TaskDate } from "./components";
+import { useUnit } from "effector-react/compat";
+import { openTaskSideBar } from "../../widgets/TaskSideBar/model.ts";
+import { setCurrentTask } from "../../model/tasks.ts";
 
 export const Task: React.FC<TaskProps> = ({
+	id,
 	title,
 	description,
 	startDate = new Date(),
 	endDate,
 	status,
 }) => {
+	const setCurrentTaskEvent = useUnit(setCurrentTask);
+	const openTaskSideBarEvent = useUnit(openTaskSideBar);
 
 	const clickHandler = () => {
-
+		setCurrentTaskEvent(id);
+		openTaskSideBarEvent();
 	}
 
 	return (
