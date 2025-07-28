@@ -4,8 +4,11 @@ import { TaskSidebar } from "../widgets/TaskSideBar/TaskSideBar.tsx";
 import { useUnit } from "effector-react";
 import { openTaskSideBar } from "../widgets/TaskSideBar/model.ts";
 
-import './App.css'
 import {clearCurrentTask} from "../models/tasks.ts";
+import {TaskSearch} from "../widgets/TaskSearch/TaskSearch.tsx";
+
+import './App.css'
+
 
 
 function App() {
@@ -24,11 +27,7 @@ function App() {
 					Task tracker
 				</h1>
 
-				<input
-					type='text'
-					placeholder='Поиск задач...'
-					className='px-4 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-xs'
-				/>
+				<TaskSearch />
 
 				<button
 					onClick={showTaskSidebar}
@@ -46,7 +45,7 @@ function App() {
 				<TasksColumn status="ready" />
 			</div>
 
-			<TaskSidebar/>
+			<TaskSidebar />
 		</div>
 	)
 }

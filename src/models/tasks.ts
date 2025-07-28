@@ -40,12 +40,6 @@ sample({
 sample({
 	clock: setCurrentTask,
 	source: $tasks,
-	fn: (tasks, clock) => {
-		const result = tasks.find(({ id }) => id == clock);
-
-		console.log(result);
-
-		return result || null;
-	},
+	fn: (tasks, clock) => tasks.find(({ id }) => id == clock) || null,
 	target: $currentTask
 })

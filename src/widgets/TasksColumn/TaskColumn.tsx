@@ -1,21 +1,28 @@
 import React from "react";
 
 
-import { useStoreMap } from "effector-react";
+import { useStoreMap, useUnit } from "effector-react";
 import { $tasks } from "../../models/tasks.ts";
 import type {TaskProps} from "../../types/TaskTypes.ts";
 import {getStatusText} from "../../helpers";
 import {Task} from "./components/Task/Task.tsx";
+import {$searchTaskValue} from "../TaskSearch/model.ts";
 
 interface TasksColumnProps {
 	status: TaskProps["status"];
 }
 
 export const TasksColumn: React.FC<TasksColumnProps> = ({ status }) => {
+	const searchValue = useUnit($searchTaskValue)
+
+	const filterTasks = (tasks: TaskProps[]) => {
+		return tasks.filter((t) => t.status === status)
+	}
+
 	const tasks = useStoreMap({
 		store: $tasks,
 		keys: [],
-		fn: (tasks) => tasks.filter((t) => t.status === status),
+		fn: filterTasks,
 	});
 
 
@@ -27,7 +34,16 @@ export const TasksColumn: React.FC<TasksColumnProps> = ({ status }) => {
 
 			<div className="flex flex-col gap-3">
 				{tasks.length > 0 ? (
-					tasks.map((task) => <Task key={task.id} {...task} />)
+					tasks
+						.filter((task) => {
+							if (searchValue) {
+								return task.title.includes(searchValue);
+							}
+
+							return task
+						})
+						.map((task) => <Task key={task.id} {...task} />)
+
 				) : (
 					<p className="text-sm text-gray-500 italic">Задач нет</p>
 				)}
