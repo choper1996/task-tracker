@@ -1,6 +1,6 @@
-import type { TaskProps } from "../../../types.ts";
 
 import styles from "../TaskStatus.module.css"
+import type {TaskProps} from "../../../../../../../types/TaskTypes.ts";
 
 export const getStatusClass = (status: TaskProps['status']) => {
 	switch (status) {

@@ -1,11 +1,11 @@
 import React from "react";
 
-import type { TaskProps } from "../../entities/Task/types.ts";
 
-import { Task } from "../../entities/Task/Task.tsx";
-import { getStatusText } from "../../entities/Task/components/TaskStatus/helpers";
 import { useStoreMap } from "effector-react";
-import { $tasks } from "../../model/tasks.ts";
+import { $tasks } from "../../models/tasks.ts";
+import type {TaskProps} from "../../types/TaskTypes.ts";
+import {getStatusText} from "../../helpers";
+import {Task} from "./components/Task/Task.tsx";
 
 interface TasksColumnProps {
 	status: TaskProps["status"];

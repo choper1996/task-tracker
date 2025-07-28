@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useUnit } from 'effector-react';
 import { $taskSidebarShown, closeTaskSideBar } from './model';
-import { $currentTask, addTask, updateTask, deleteTask } from "../../model/tasks.ts";
-import type {TaskProps} from "../../entities/Task/types.ts";
-import { formatDate } from "../../entities/Task/components/TaskDate/helpers";
+import { $currentTask, addTask, updateTask, deleteTask } from "../../models/tasks.ts";
+import type {TaskProps} from "../../types/TaskTypes.ts";
+import {formatDate} from "../../helpers";
 
 export const TaskSidebar: React.FC = () => {
 	const ref = useRef<HTMLDivElement>(null);

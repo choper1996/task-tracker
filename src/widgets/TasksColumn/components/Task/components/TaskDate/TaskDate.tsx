@@ -1,7 +1,5 @@
 import React from "react";
-
-import { formatDate } from "./helpers";
-
+import {formatDate} from "../../../../../../helpers";
 
 interface StatusProps {
 	date?: Date;

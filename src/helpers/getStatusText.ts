@@ -1,4 +1,4 @@
-import type { TaskProps } from "../../../types.ts";
+import type {TaskProps} from "../types/TaskTypes.ts";
 
 export const getStatusText = (status: TaskProps['status']) => {
 	switch (status) {

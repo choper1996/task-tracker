@@ -5,7 +5,7 @@ import { useUnit } from "effector-react";
 import { openTaskSideBar } from "../widgets/TaskSideBar/model.ts";
 
 import './App.css'
-import {clearCurrentTask} from "../model/tasks.ts";
+import {clearCurrentTask} from "../models/tasks.ts";
 
 
 function App() {

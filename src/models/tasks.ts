@@ -1,6 +1,6 @@
 import {createEvent, createStore, sample} from 'effector';
-import type { TaskProps } from "../entities/Task/types.ts";
 import {closeTaskSideBar} from "../widgets/TaskSideBar/model.ts";
+import type {TaskProps} from "../types/TaskTypes.ts";
 
 const saved = localStorage.getItem('tasks');
 const initialTasks: TaskProps[] = saved ? JSON.parse(saved) : [];
@@ -17,9 +17,14 @@ export const $tasks = createStore<TaskProps[]>(initialTasks)
 	.on(deleteTask, (state, id) => state.filter((t) => t.id !== id))
 
 $tasks.watch((tasks) => {
-	console.log(tasks);
 	localStorage.setItem('tasks', JSON.stringify(tasks));
 });
+
+sample({
+	clock: [updateTask, deleteTask, addTask],
+	source: $tasks,
+	fn: (tasks) => localStorage.setItem('tasks', JSON.stringify(tasks))
+})
 
 export const setCurrentTask = createEvent<TaskProps["id"]>();
 export const clearCurrentTask = createEvent();
